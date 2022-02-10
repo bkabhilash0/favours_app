@@ -4,7 +4,7 @@ class Favor {
   final String uuid;
   final String description;
   final DateTime dueDate;
-  final bool? accepted;
+  bool? accepted;
   final DateTime? completed;
   final Friend friend;
 
@@ -16,6 +16,26 @@ class Favor {
     this.completed,
     required this.friend,
   });
+
+  Favor copyWith({
+    String? uuid,
+    String? description,
+    DateTime? dueDate,
+    bool? accepted,
+    DateTime? completed,
+    Friend? friend,
+  }) {
+    return Favor(
+      uuid: uuid ?? this.uuid,
+      description: description ?? this.description,
+      dueDate: dueDate ?? this.dueDate,
+      accepted: accepted ?? this.accepted,
+      completed: completed ?? this.completed,
+      friend: friend ?? this.friend,
+    );
+  }
+
+  set setAccepted(bool value) => accepted = value;
 
   /// returns true if the favor is active ( the user is doing it )
   get isDoing => accepted == true && completed == null;

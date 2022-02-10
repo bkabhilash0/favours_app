@@ -1,4 +1,5 @@
 import 'package:favours_app/models/favour_model.dart';
+import 'package:favours_app/pages/FavoursPage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -6,7 +7,7 @@ class FavourCardItem extends StatelessWidget {
   final Favor favour;
   const FavourCardItem({Key? key, required this.favour}) : super(key: key);
 
-  Widget _itemHeader(Favor favour) {
+  Widget _itemHeader(BuildContext context, Favor favour) {
     return Row(children: [
       CircleAvatar(
         backgroundImage: NetworkImage(favour.friend.photoURL),
@@ -19,7 +20,7 @@ class FavourCardItem extends StatelessWidget {
     ]);
   }
 
-  Widget _itemFooter(Favor favour) {
+  Widget _itemFooter(BuildContext context, Favor favour) {
     if (favour.isCompleted) {
       final format = DateFormat();
       return Container(
@@ -34,7 +35,9 @@ class FavourCardItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                FavoursPageState.of(context).refuseToDo(favour);
+              },
               style: TextButton.styleFrom(primary: Colors.red),
               child: const Text(
                 "Refuse",
@@ -66,9 +69,9 @@ class FavourCardItem extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _itemHeader(favour),
+            _itemHeader(context, favour),
             Text(favour.description),
-            _itemFooter(favour)
+            _itemFooter(context, favour)
           ],
         ),
       ),

@@ -1,20 +1,57 @@
+import 'package:favours_app/data/mock_values.dart';
 import 'package:favours_app/models/favour_model.dart';
 import 'package:favours_app/pages/RequestFavourPage.dart';
 import 'package:favours_app/widgets/favour_card_item.dart';
 import 'package:flutter/material.dart';
 
-class FavoursPage extends StatelessWidget {
-  final List<Favor> pendingAnswerFavours;
-  final List<Favor> acceptedFavours;
-  final List<Favor> completedFavours;
-  final List<Favor> refusedFavours;
-  const FavoursPage(
-      {Key? key,
-      required this.pendingAnswerFavours,
-      required this.acceptedFavours,
-      required this.completedFavours,
-      required this.refusedFavours})
-      : super(key: key);
+class FavoursPage extends StatefulWidget {
+  const FavoursPage({
+    Key? key,
+    // required this.pendingAnswerFavours,
+    // required this.acceptedFavours,
+    // required this.completedFavours,
+    // required this.refusedFavours
+  }) : super(key: key);
+
+  @override
+  State<FavoursPage> createState() => FavoursPageState();
+}
+
+class FavoursPageState extends State<FavoursPage> {
+  static FavoursPageState of(BuildContext context) {
+    return context.findAncestorStateOfType<FavoursPageState>()!;
+  }
+
+  late List<Favor> pendingAnswerFavours;
+  late List<Favor> acceptedFavours;
+  late List<Favor> completedFavours;
+  late List<Favor> refusedFavours;
+
+  @override
+  void initState() {
+    super.initState();
+    pendingAnswerFavours = [];
+    acceptedFavours = [];
+    completedFavours = [];
+    refusedFavours = [];
+
+    loadFavors();
+  }
+
+  void loadFavors() {
+    pendingAnswerFavours.addAll(mockPendingFavors);
+    acceptedFavours.addAll(mockDoingFavors);
+    completedFavours.addAll(mockCompletedFavors);
+    refusedFavours.addAll(mockRefusedFavors);
+  }
+
+  void refuseToDo(Favor favor) {
+    setState(() {
+      pendingAnswerFavours.remove(favor);
+      favor.copyWith(accepted: false);
+      refusedFavours.add(favor);
+    });
+  }
 
   Widget _buildCategoryTab(String title) {
     return Tab(

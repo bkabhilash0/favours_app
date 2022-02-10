@@ -33,11 +33,12 @@ class MyApp extends StatelessWidget {
               friends: mockFriends,
             )
       },
-      home: FavoursPage(
-          pendingAnswerFavours: mockPendingFavors,
-          acceptedFavours: mockDoingFavors,
-          completedFavours: mockCompletedFavors,
-          refusedFavours: mockRefusedFavors),
+      home: const FavoursPage(
+          // pendingAnswerFavours: mockPendingFavors,
+          // acceptedFavours: mockDoingFavors,
+          // completedFavours: mockCompletedFavors,
+          // refusedFavours: mockRefusedFavors
+          ),
     );
   }
 }
