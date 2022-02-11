@@ -43,7 +43,11 @@ class FavourCardItem extends StatelessWidget {
                 "Refuse",
                 style: TextStyle(color: Colors.red),
               )),
-          TextButton(onPressed: () {}, child: const Text("Do")),
+          TextButton(
+              onPressed: () {
+                FavoursPageState.of(context).acceptToDo(favour);
+              },
+              child: const Text("Do")),
         ],
       );
     }
@@ -51,8 +55,16 @@ class FavourCardItem extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          TextButton(onPressed: () {}, child: const Text("Give Up")),
-          TextButton(onPressed: () {}, child: const Text("Complete")),
+          TextButton(
+              onPressed: () {
+                FavoursPageState.of(context).giveUpToDo(favour);
+              },
+              child: const Text("Give Up")),
+          TextButton(
+              onPressed: () {
+                FavoursPageState.of(context).completeTodo(favour);
+              },
+              child: const Text("Complete")),
         ],
       );
     }

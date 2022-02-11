@@ -48,8 +48,32 @@ class FavoursPageState extends State<FavoursPage> {
   void refuseToDo(Favor favor) {
     setState(() {
       pendingAnswerFavours.remove(favor);
-      favor.copyWith(accepted: false);
+      favor.setAccepted = false;
       refusedFavours.add(favor);
+    });
+  }
+
+  void acceptToDo(Favor favor) {
+    setState(() {
+      pendingAnswerFavours.remove(favor);
+      favor.setAccepted = true;
+      acceptedFavours.add(favor);
+    });
+  }
+
+  void giveUpToDo(Favor favor) {
+    setState(() {
+      acceptedFavours.remove(favor);
+      favor.setAccepted = false;
+      refusedFavours.add(favor);
+    });
+  }
+
+  void completeTodo(Favor favor) {
+    setState(() {
+      acceptedFavours.remove(favor);
+      favor.setCompleted = DateTime.now();
+      completedFavours.add(favor);
     });
   }
 
