@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:favours_app/data/mock_values.dart';
 import 'package:favours_app/models/favour_model.dart';
 import 'package:favours_app/pages/RequestFavourPage.dart';
@@ -21,6 +23,8 @@ class FavoursPageState extends State<FavoursPage> {
   static FavoursPageState of(BuildContext context) {
     return context.findAncestorStateOfType<FavoursPageState>()!;
   }
+
+  final kFavorCardMaxWidth = 400.0;
 
   late List<Favor> pendingAnswerFavours;
   late List<Favor> acceptedFavours;
@@ -89,18 +93,37 @@ class FavoursPageState extends State<FavoursPage> {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 16.0),
-          child: Text(title),
+          child: Text(title, style: Theme.of(context).textTheme.titleLarge),
         ),
-        Expanded(
-            child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: favours.length,
-                itemBuilder: (ctx, index) {
-                  final favour = favours[index];
-                  return FavourCardItem(favour: favour);
-                }))
+        Expanded(child: _buildCardList(favours))
       ],
     );
+  }
+
+  Widget _buildCardList(List<Favor> favours) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardsPerRow = max(screenWidth ~/ kFavorCardMaxWidth, 1);
+    if (screenWidth > 400) {
+      return GridView.builder(
+          physics: const BouncingScrollPhysics(),
+          itemCount: favours.length,
+          scrollDirection: Axis.vertical,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: 2.4, crossAxisCount: cardsPerRow),
+          itemBuilder: (ctx, index) {
+            final favor = favours[index];
+            return FavourCardItem(
+              favour: favor,
+            );
+          });
+    }
+    return ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        itemCount: favours.length,
+        itemBuilder: (ctx, index) {
+          final favour = favours[index];
+          return FavourCardItem(favour: favour);
+        });
   }
 
   @override
